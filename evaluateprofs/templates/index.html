@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+  {{ page_title }}
+{% endblock %}
+
+{% block content %}
+  <div class="mt-5">
+      <section>
+          <h1 class="display-4 text-center mb-3">Find your professor:</h1>
+          {% if request.user.is_authenticated %}
+          <h5 class="text-muted text-center">Hi {{ request.user.username }}</h5>
+          {% endif %}
+          <form method="GET" action="/professors/" class="input-group">
+              <input class="form-control form-control-lg my-4" type="search" name="q" placeholder="Electrical Engineering" aria-label="Search" value="{{ request.GET.q }}" />
+              <div class="my-4 ml-4"><input type="submit" class="btn btn-primary btn-lg" value="Search" /></div>
+          </form>
+      </section>
+  </div>
+<!--   <div class="row">
+  <div class="col-sm-12 col-lg-6 mb-3">
+    <div class="card shadow-sm border-0">
+    <div class="card-header text-white" style="background-color: #06272E;">
+        Highest score:
+    </div>
+      <div class="card-body">
+        <h5 class="card-title">{{ professor_score.name }}</h5>
+        <p class="card-text">{{ professor_score.score }} / 5.00</p>
+        <a href="/professors/{{ professor_score.id }}" class="btn btn-primary">Navigate to page</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12 col-lg-6 mb-3">
+    <div class="card shadow-sm border-0">
+    <div class="card-header text-white" style="background-color: #06272E;">
+        Most reviewed:
+    </div>
+      <div class="card-body">
+        <h5 class="card-title">{{ professor_comments.name }}</h5>
+        <p class="card-text">{{ professor_comments.comments_number }} reviews</p>
+        <a href="/professors/{{ professor_comments.id }}" class="btn btn-primary">Navigate to page</a>
+      </div>
+    </div>
+  </div>
+</div> -->
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+  {{ page_title }}
+{% endblock %}
+
+{% load static %}
+{% block content %}
+<section class="card col-sm-12 col-lg-4 p-3 mt-5 mx-auto bg-white">
+    <h4 class="mb-1 mt-3 text-center"> {{ page_title }} </h4>
+    <small class="mb-4 text-muted text-center">Sign in to your account to leave your reviews.</small>
+    <form action="" method="POST">{% csrf_token %}
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+            {% for error in form.non_field_errors %}
+                {{ error }}
+            {% endfor %}
+            </div>
+        {% endif %}
+
+        {% for hidden_field in form.hidden_fields %}
+            {{ hidden_field.errors }}
+            {{ hidden_field }}
+        {% endfor %}
+        
+        <div class="form-group">
+            <label for="id_username">Username</label>
+            <input type="text" class="form-control" id="id_username" name="username">
+        </div>
+        <div class="form-group mb-4">
+            <label for="id_username">Password</label>
+            <input type="password" class="form-control" id="id_password" name="password">
+        </div>
+        <input class="btn btn-primary btn-block" type="submit" value="Sign in" />
+    </form>
+</section>
+<section class="alert border col-sm-12 col-lg-4 p-3 mt-3 mx-auto text-center">
+    New here? <a href="/register">Sign up</a>
+</section>
+{% endblock %}

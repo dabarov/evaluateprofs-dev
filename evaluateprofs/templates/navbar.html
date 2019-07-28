@@ -1,0 +1,58 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-light bg-white border">
+  <div class="container">
+    <a class="navbar-brand" href="/"><img src="{% static "/logo.png" %}" alt="evaluateprofs" height="40px"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mt-2 ml-auto text-center">
+        <li class="nav-item mr-4">
+          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item mr-4 dropdown">
+          <a class="nav-link dropdown-toggle" href="/professors" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Top
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/professors">Common top</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/professors/?q=Centre+for+Preparatory+studies">CPS</a>
+            <a class="dropdown-item" href="/professors/?q=School+of+Engineering">SEng</a>
+            <a class="dropdown-item" href="/professors/?q=School+of+Science+and+Technology">SST</a>
+            <a class="dropdown-item" href="/professors/?q=School+of+Humanities+and+Social+Sciences">SSHS</a>
+            <a class="dropdown-item" href="/professors/?q=School+of+Mining+and+Geosciences">SMG</a>
+            <a class="dropdown-item" href="/professors/?q=School+of+Medicine">NUSOM</a>
+            <a class="dropdown-item" href="/professors/?q=Graduate+School+of+Business">GSB</a>
+            <a class="dropdown-item" href="/professors/?q=Graduate+School+of+Education">GSE</a>
+            <a class="dropdown-item" href="/professors/?q=Graduate+School+of+Public+Policy">GSPP</a>
+          </div>
+        </li>
+        <li class="nav-item mr-4">
+          <a class="nav-link" href="/about">About</a>
+        </li>
+        <li class="nav-item mr-4">
+          <a class="nav-link" href="/terms">Terms</a>
+        </li>
+        <li class="nav-item mr-4">
+          <p class="nav-link disabled">|</p>
+        </li>
+        {% if not request.user.is_authenticated %}
+        <li class="nav-item mr-4">
+          <a class="nav-link" href="/login">Sign in</a>
+        </li>
+        <li class="nav-item mr-4">
+          <a class="btn btn-outline-primary" href="/register">Sign up</a>
+        </li>
+        {% else %}
+        <li class="nav-item mr-4">
+          <p class="nav-link disabled ">{{ request.user.username }}</p>
+        </li>
+        <li class="nav-item mr-4">
+          <a class="nav-link" href="/logout">Log out</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>

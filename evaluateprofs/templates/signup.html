@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+  {{ page_title }}
+{% endblock %}
+
+{% load static %}
+{% block content %}
+<section class="card col-sm-12 col-lg-4 p-3 mt-5 mx-auto bg-white">
+    <h4 class="mb-1 mt-3 text-center"> {{ page_title }} </h4>
+    <small class="mb-4 text-muted text-center">With this account you will leave your reviews.</small>
+    <form action="" method="POST">
+        {% csrf_token %}
+        {% if recaptcha_result is 2 %}
+        <div class="alert alert-info" role="alert">
+            I feel like you are a bot
+        </div>
+        {% endif %}
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+            {% for error in form.non_field_errors %}
+                {{ error }}
+            {% endfor %}
+            </div>
+        {% endif %}
+
+        {% for hidden_field in form.hidden_fields %}
+            {{ hidden_field.errors }}
+            {{ hidden_field }}
+        {% endfor %}
+        <div class="form-group">
+            <label for="id_username">Username</label>
+            <input type="text" class="form-control" id="id_username" name="username" aria-describedby="usernameHelp" placeholder="Username">
+            <small id="usernameHelp" class="form-text text-muted">This username will be shown on reviews.</small>
+        </div>
+        <div class="form-group">
+            <label for="id_email">Email</label>
+            <input type="email" class="form-control" id="id_email" name="email" aria-describedby="emailHelp" placeholder="name.surname@university.mail">
+            <small id="emailHelp" class="form-text text-muted">Use your university mail.</small>
+        </div>
+        <div class="form-group mb-2">
+            <label for="id_username">Password</label>
+            <input type="password" class="form-control" id="id_password" name="password" aria-describedby="passwordHelp" placeholder="Password">
+            <small id="passwordHelp" class="form-text text-muted">Make sure it is strong enough.</small>
+        </div>
+        <div class="row">
+            <div class="mx-auto mb-2">
+                <script src='https://www.google.com/recaptcha/api.js'></script>
+                <div class="g-recaptcha" data-sitekey="PUT HERE YOUR RECAPTCHA KEY"></div>
+            </div>
+        </div>
+        <input class="btn btn-primary btn-block" type="submit" value="Sign up" />
+        <small><center>
+            By clicking “Sign up”, you agree to our <a href="/terms">Terms of Service</a>. We’ll occasionally send you account related emails.
+        </center></small>
+    </form>
+</section>
+{% endblock %}

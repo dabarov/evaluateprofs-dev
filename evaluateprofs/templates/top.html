@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+{{ page_title }}
+{% endblock %}
+
+{% block content %}
+<div class="mt-5">
+    <h1 class="ml-3 display-4 mb-3">Professors:</h1>
+    <form method="GET" action="" class="input-group">
+        <input class="form-control form-control-lg my-4" type="search" name="q" aria-label="Search" value="{{ request.GET.q }}" />
+        <div class="my-4 ml-3"><input type="submit" class="btn btn-primary btn-lg" value="Search" /></div>
+    </form>
+    <section class="mt-1">
+    {% for professor in professors %}
+        <div class="col-12">
+            <div class="row bg-white">
+                <h5 class="text-muted ml-3 mt-3">#{{ forloop.counter0|add:professors.start_index }}</h5><h5 class=" ml-2 mt-3"><a href="{{ professor.id }}" class="text-dark text-decoration-none">{{ professor.name }}</a></h5> <em class="ml-2 mt-3"> {{ professor.comments_number}} reviews</em>
+                <h5 class="ml-auto mr-3 mt-3 text-dark">{{ professor.score }}</h5> 
+            </div>
+            <div class="row bg-white mb-3">
+                <em class="ml-3 mb-3">{{ professor.school }} / {{ professor.department }}</em>
+            </div>
+        </div>
+    {% endfor %}
+    </section>
+    {% if professors.has_other_pages %}
+    <div class="row">
+        <nav class="mx-auto">
+          <ul class="pagination">
+            {% if professors.has_previous %}
+              <li class="page-item">
+                <a class="page-link" tabindex="-1"  href="?page={{ professors.previous_page_number }}">Previous</a>
+              </li>
+            {% else %}
+              <li class="page-item disabled">
+                <span class="page-link">Previous</span>
+              </li>
+            {% endif %}
+            {% for i in professors.paginator.page_range %}
+              {% if professors.number == i %}
+                <li class="page-item active" aria-current="page">
+                    <span class="page-link">
+                        {{ i }}
+                        <span class="sr-only">(current)</span>
+                    </span>
+                </li>
+              {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+              {% endif %}
+            {% endfor %}
+            {% if professors.has_next %}
+              <li class="page-item"><a class="page-link" href="?page={{ professors.next_page_number }}">Next</a></li>
+            {% else %}
+              <li class="page-item disabled">
+                <span class="page-link">Next</span>
+            </li>
+            {% endif %}
+          </ul>
+        </nav>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

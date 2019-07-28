@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+    {{ professor.name }}
+{% endblock%}
+
+{% load static %}
+{% block content %}
+<section class="card p-3 my-5 bg-white">
+    <div class="row">
+        <h1 class="mb-2 ml-3">{{ professor.name }}</h1>
+        <span class="my-2 mx-2"><h5><span class="badge text-white" style="background-color:#F64621;">{{ professor.score }}</span></h5></span>
+    </div>
+    <em class="ml-1 font-weight-light">{{ professor.title }}</em>
+    <hr>
+    <div class="row mx-auto mb-2"><h5 class=" mx-1 font-weight-light">{{ professor.school }} | </h5><h5 class="mx-1 font-weight-light">{{ professor.department }}</h5></div>
+    <hr>
+     <div class="row mx-auto">
+        <h5 class="ml-auto mr-3"><img src="{% static "/communication.svg" %}" alt="Commitment" height="30px" title="Commitment">  {{ professor.communication }}</h5>
+        <h5 class="mx-3"><img src="{% static "/marking.svg" %}" alt="Assessment" height="30px" title="Assessment">  {{ professor.marking }}</h5>
+        <h5 class="mx-3"><img src="{% static "/objectivity.svg" %}" alt="Objectivity" height="30px" title="Objectivity">  {{ professor.objectivity }}</h5>
+        <h5 class="mx-3"><img src="{% static "/quality.svg" %}" alt="Quality" height="30px" title="Quality">  {{ professor.quality }}</h5>
+    </div>
+</section>
+
+<h4 class="mt-5">Post your review</h4>
+<section class="card p-3 mb-3 bg-white">
+    {% if request.user.is_authenticated %}
+    <form class="needs-validation" action="" method="POST">{% csrf_token %}
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+            {% for error in form.non_field_errors %}
+                {{ error }}
+            {% endfor %}
+            </div>
+        {% endif %}
+
+        {% for hidden_field in form.hidden_fields %}
+            {{ hidden_field.errors }}
+            {{ hidden_field }}
+        {% endfor %}
+
+        <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" name="anonymity" id="id_anonymity">
+            <label class="form-check-label" for="id_anonymity">Leave a review anonymously</label>
+        </div>
+        <textarea class="form-control mb-3" rows="4" name="text" id="id_text" maxlength="400" required></textarea>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="id_communication">Commitment towards students:</label>
+            </div>
+            <select class="custom-select" id="id_communication" name="communication" required>
+            <option value="">Select</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            </select>
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="id_marking">Assessment:</label>
+            </div>
+            <select class="custom-select" id="id_marking" name="marking" required>
+            <option value="">Select</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            </select>
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="id_communication">Objectivity towards students:</label>
+            </div>
+            <select class="custom-select" id="id_objectivity" name="objectivity" required>
+            <option value="">Select</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            </select>
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="id_communication">Quality of given information:</label>
+            </div>
+            <select class="custom-select" id="id_quality" name="quality" required>
+            <option value="">Select</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            </select>
+        </div>
+        <script src='https://www.google.com/recaptcha/api.js'></script>
+        <div class="g-recaptcha mb-2" data-sitekey="PUT HERE YOUR RECAPTCHA KEY"></div>
+        <input class="btn btn-primary" type="submit" value="Submit" />
+        </form>
+    {% else %}
+    <p>You must <a href="/login">login</a> to leave reviews.</p>
+    {% endif %}
+</section>
+
+{% if professor.comment_set.all %}
+<h4 class="mt-3">Recent results:</h4>
+<section class="card-desk">
+    {% for comment in professor.comment_set.all reversed %}
+        <div class="card mb-3 p-2">
+            <div class="row mx-2 mt-2">
+                {% if comment.anonymity %}
+                    <h5>anonymous</h5>
+                    <em class="mx-3">{{ comment.publish_date }}</em>
+                {% else %}
+                    <h5>{{ comment.author }}</h5>
+                    <em class="mx-3">{{ comment.publish_date }}</em>
+                {% endif %}
+                <h5 class="ml-auto mr-3"><img src="{% static "/communication.svg" %}" alt="Commitment" height="20px" title="Commitment">  {{ comment.communication }}</h5>
+                <h5 class="mx-3"><img src="{% static "/marking.svg" %}" alt="Assessment" height="20px" title="Assessment">  {{ comment.marking }}</h5>
+                <h5 class="mx-3"><img src="{% static "/objectivity.svg" %}" alt="Objectivity" height="20px" title="Objectivity">  {{ comment.objectivity }}</h5>
+                <h5 class="mx-3"><img src="{% static "/quality.svg" %}" alt="Quality" height="20px" title="Quality">  {{ comment.quality }}</h5>
+                </div>
+                <hr>
+                <p class="font-weight-normal mx-3">{{ comment.text }}</p>
+        </div>
+    {% endfor %}
+</section>
+{% endif %}
+
+{% endblock %}
