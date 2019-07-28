@@ -21,8 +21,8 @@ urllib3   1.25.3
 ## Installation
 
 1. Clone the repository.
-2. Create --local_settings.py-- file and set everything as you want.
-3. Change SECRET_KEY and GOOGLE_RECAPTCHA_SECRET_KEY. Fill everything for mailing. Also enter recaptcha keys into --signup.html-- and --professor_profile.html-- files.
+2. Create *local_settings.py* file and set everything as you want.
+3. Change SECRET_KEY and GOOGLE_RECAPTCHA_SECRET_KEY. Fill everything for mailing. Also enter recaptcha keys into *signup.html* and *professor_profile.html* files.
 4. Migrate to get the database setted: 
 
 ```
