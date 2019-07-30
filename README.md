@@ -1,5 +1,7 @@
 <div align="center">
-  <img src="https://github.com/simplyalde/evaluateprofs-dev/blob/master/evaluateprofs/static/logo.png">
+  <a href="https://evaluateprofs.com">
+    <img src="https://github.com/simplyalde/evaluateprofs-dev/blob/master/evaluateprofs/static/logo.png">
+  </a>
 </div>
 
 -----------------
