@@ -47,7 +47,7 @@ def professor_profile(request, id):
 
 
 def professors_list(request):
-    query_set = Professor.objects.order_by('-score')
+    query_set = Professor.objects.order_by('-score', '-comments_number')
     query = request.GET.get('q')
     if query:
         for word in query.split():
