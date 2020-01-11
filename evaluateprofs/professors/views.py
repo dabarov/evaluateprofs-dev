@@ -17,7 +17,8 @@ def professor_profile(request, id):
             'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
             'response': recaptcha_response
         }
-        r = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data)
+        r = requests.post('https://www.google.com/recaptcha/api/siteverify',
+                          data=data)
         result = r.json()
         ''' End reCAPTCHA validation '''
         if result['success']:
@@ -27,17 +28,19 @@ def professor_profile(request, id):
             comment.score = calculate_score(comment)
             professor.comments_number += 1
             professor.communication = ((professor.communication *
-                                       (professor.comments_number - 1) +
-                                       comment.communication) /
+                                        (professor.comments_number - 1) +
+                                        comment.communication) /
                                        professor.comments_number)
-            professor.marking = ((professor.marking * (professor.comments_number -
-                                 1) + comment.marking) / professor.comments_number)
+            professor.marking = ((professor.marking *
+                                  (professor.comments_number - 1) +
+                                  comment.marking) / professor.comments_number)
             professor.objectivity = ((professor.objectivity *
-                                     (professor.comments_number - 1) +
-                                     comment.objectivity) /
+                                      (professor.comments_number - 1) +
+                                      comment.objectivity) /
                                      professor.comments_number)
-            professor.quality = ((professor.quality * (professor.comments_number -
-                                 1) + comment.quality) / professor.comments_number)
+            professor.quality = ((professor.quality *
+                                  (professor.comments_number - 1) +
+                                  comment.quality) / professor.comments_number)
             professor.score = calculate_score(professor)
             professor.save()
             comment.save()
@@ -46,7 +49,7 @@ def professor_profile(request, id):
     return render(request, 'professor_profile.html', context)
 
 
-def professors_list(request):
+def professors_search(request):
     query_set = Professor.objects.order_by('-score', '-comments_number')
     query = request.GET.get('q')
     if query:
@@ -55,6 +58,12 @@ def professors_list(request):
                                          Q(school__icontains=word) |
                                          Q(department__icontains=word) |
                                          Q(title__icontains=word))
+    context = {'professors': query_set, 'page_title': 'Looking for professors'}
+    return render(request, 'search.html', context)
+
+
+def professors_list(request):
+    query_set = Professor.objects.order_by('-score', '-comments_number')
     paginator = Paginator(query_set, 100)
     page = request.GET.get('page')
     query_set = paginator.get_page(page)
@@ -63,12 +72,11 @@ def professors_list(request):
 
 
 def home_page(request):
-    # UNCOMMENT when you add at least one prof
-    # professor_score = Professor.objects.order_by('-score')[0]
-    # professor_comments = Professor.objects.order_by('-comments_number')[0]
-    # context = {'page_title': 'Home', 'professor_score': professor_score,
-    #            'professor_comments': professor_comments}
-    context = {'page_title': 'Home'}
+    professor_score = Professor.objects.order_by('-score',
+                                                 '-comments_number')[0]
+    professor_comments = Professor.objects.order_by('-comments_number')[0]
+    context = {'page_title': 'Home', 'professor_score': professor_score,
+               'professor_comments': professor_comments}
     return render(request, "index.html", context)
 
 

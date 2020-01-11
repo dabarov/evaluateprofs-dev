@@ -16,8 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path, re_path
-from professors.views import (professors_list, professor_profile, home_page, 
-                              about_page, terms_page)
+from professors.views import (professors_list, professor_profile, home_page,
+                              professors_search, about_page, terms_page)
 from accounts.views import activate, login_view, logout_view, register_view
 
 
@@ -30,6 +30,7 @@ urlpatterns = [
     path('professors/', professors_list),
     path('professors/<int:id>/', professor_profile),
     path('register/', register_view),
+    path('search/', professors_search),
     re_path(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
             activate, name='activate'),
     path('terms/', terms_page),

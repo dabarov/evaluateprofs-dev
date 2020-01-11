@@ -11,13 +11,13 @@
           {% if request.user.is_authenticated %}
           <h5 class="text-muted text-center">Hi {{ request.user.username }}</h5>
           {% endif %}
-          <form method="GET" action="/professors/" class="input-group">
+          <form method="GET" action="/search/" class="input-group">
               <input class="form-control form-control-lg my-4" type="search" name="q" placeholder="Electrical Engineering" aria-label="Search" value="{{ request.GET.q }}" />
               <div class="my-4 ml-4"><input type="submit" class="btn btn-primary btn-lg" value="Search" /></div>
           </form>
       </section>
   </div>
-<!--   <div class="row">
+<div class="row">
   <div class="col-sm-12 col-lg-6 mb-3">
     <div class="card shadow-sm border-0">
     <div class="card-header text-white" style="background-color: #06272E;">
@@ -42,5 +42,5 @@
       </div>
     </div>
   </div>
-</div> -->
+</div> 
 {% endblock %}

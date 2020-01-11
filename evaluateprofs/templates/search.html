@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+{{ page_title }}
+{% endblock %}
+
+{% block content %}
+<div class="mt-5">
+    <h1 class="ml-3 display-4 mb-3">Professors:</h1>
+    <form method="GET" action="" class="input-group">
+        <input class="form-control form-control-lg my-4" type="search" name="q" aria-label="Search" value="{{ request.GET.q }}" />
+        <div class="my-4 ml-3"><input type="submit" class="btn btn-primary btn-lg" value="Search" /></div>
+    </form>
+    <section class="mt-1">
+    {% for professor in professors %}
+        <div class="col-12">
+            <div class="row bg-white">
+                <h5 class="text-muted ml-3 mt-3">#{{ forloop.counter0|add:1 }}</h5><h5 class=" ml-2 mt-3"><a href="{{ professor.id }}" class="text-dark text-decoration-none">{{ professor.name }}</a></h5> <em class="ml-2 mt-3"> {{ professor.comments_number}} reviews</em>
+                <h5 class="ml-auto mr-3 mt-3 text-dark">{{ professor.score }}</h5> 
+            </div>
+            <div class="row bg-white mb-3">
+                <em class="ml-3 mb-3">{{ professor.school }} / {{ professor.department }}</em>
+            </div>
+        </div>
+    {% endfor %}
+    </section>
+</div>
+{% endblock %}
