@@ -58,6 +58,8 @@ def professors_search(request):
                                          Q(school__icontains=word) |
                                          Q(department__icontains=word) |
                                          Q(title__icontains=word))
+    else:
+        return redirect('/professors')
     context = {'professors': query_set, 'page_title': 'Looking for professors'}
     return render(request, 'search.html', context)
 

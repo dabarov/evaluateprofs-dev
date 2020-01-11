@@ -7,7 +7,7 @@
 {% block content %}
 <div class="mt-5">
     <h1 class="ml-3 display-4 mb-3">Professors:</h1>
-    <form method="GET" action="" class="input-group">
+    <form method="GET" action="/search/" class="input-group">
         <input class="form-control form-control-lg my-4" type="search" name="q" aria-label="Search" value="{{ request.GET.q }}" />
         <div class="my-4 ml-3"><input type="submit" class="btn btn-primary btn-lg" value="Search" /></div>
     </form>
